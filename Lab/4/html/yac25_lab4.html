@@ -1,0 +1,356 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>yac25_lab4</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-02-07"><meta name="DC.source" content="yac25_lab4.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">2.4 MATLAB Synthesis of Chirp Signals</a></li><li><a href="#3">3.2 Function for a Chirp</a></li><li><a href="#4">4.1/4.2 Beat Notes &amp; More on Spectrograms</a></li><li><a href="#5">4.3 Spectrogram of a Chirp</a></li><li><a href="#6">4.4 A Chirp Puzzle</a></li></ul></div><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">Yonatan Carver
+</span><span class="comment">ECES 352 - Lab 4
+</span><span class="comment">
+</span><span class="comment">%}
+</span>clear; clc; close <span class="string">all</span>
+</pre><h2 id="2">2.4 MATLAB Synthesis of Chirp Signals</h2><pre class="codeinput">fsamp = 11025;
+dt = 1/fsamp;
+dur = 1.8;
+tt = 0 : dt : dur;
+psi = 2 * pi * ( 100 + 200 * tt + 500 * tt .* tt );
+xx = real( 7.7 * exp(1j * psi) );
+soundsc( xx, fsamp );
+</pre><h2 id="3">3.2 Function for a Chirp</h2><pre class="codeinput"><span class="comment">% function [xx, tt] = chirpsyn( f1, f2, dur, fsamp )</span>
+f1 = 3300;	<span class="comment">% 3300 Hz</span>
+f2 = 300;	<span class="comment">% 300 Hz</span>
+dur = 1.5;	<span class="comment">% 1.5 seconds</span>
+
+[xx, tt] = chirpsyn( f1, f2, dur );
+
+figure
+plot(tt,xx)
+figure
+plotspec(xx);
+<span class="comment">% specgram(xx)</span>
+<span class="comment">% soundsc(xx)</span>
+</pre><pre class="codeoutput">PLOTSPEC: Sampling Frequency defaulting to 8000 Hz
+</pre><img vspace="5" hspace="5" src="yac25_lab4_01.png" alt=""> <img vspace="5" hspace="5" src="yac25_lab4_02.png" alt=""> <h2 id="4">4.1/4.2 Beat Notes &amp; More on Spectrograms</h2><p>(a)</p><pre class="codeinput">delf = 35;		<span class="comment">% 35 Hz</span>
+dur = 0.2;		<span class="comment">% 0.2 sec</span>
+fsamp = 11025;	<span class="comment">% 11025 Hz</span>
+fc = 1000;		<span class="comment">% 1650 Hz</span>
+A = 5;
+B = 20;
+
+<span class="comment">% function [xx, tt] = beat( A, B, fc, delf, fsamp, dur )</span>
+[xx, tt] = beat(A, B, fc, delf, fsamp, dur);
+
+figure
+plot(tt, xx)
+title([<span class="string">'x(t) = '</span>, num2str(A), <span class="string">'cos(2\pi('</span>, num2str(fc), <span class="string">'-'</span>, num2str(delf), <span class="keyword">...</span>
+	<span class="string">')t) + '</span>, num2str(B), <span class="string">'cos(2\pi('</span>, num2str(fc), <span class="string">'+'</span>, num2str(delf), <span class="string">')t)'</span>])
+xlabel(<span class="string">'time (s)'</span>)
+ylabel(<span class="string">'amplitude'</span>)
+
+<span class="comment">% (b)</span>
+figure
+specgram(xx, 2048, fsamp);
+colormap(1-gray(256))
+title({[<span class="string">'Spectrogram of x(t) = '</span>, num2str(A), <span class="string">'cos(2\pi('</span>, num2str(fc), <span class="string">'-'</span>, num2str(delf), <span class="keyword">...</span>
+	<span class="string">')t) + '</span>, num2str(B), <span class="string">'cos(2\pi('</span>, num2str(fc), <span class="string">'+'</span>, num2str(delf), <span class="string">')t)'</span>], <span class="string">'Window Size: 2048'</span>})
+ylim([920 1080])	<span class="comment">% zoom into the relevant region with frequency peaks</span>
+yline(1035, <span class="string">'b--'</span>, <span class="string">'LineWidth'</span>, 3);
+yline(965, <span class="string">'b--'</span>, <span class="string">'LineWidth'</span>, 3);
+
+<span class="comment">% There are two significant spikes in the spectrogram plot due to the</span>
+<span class="comment">% original signal being the sum of two cosines at frequencies 965 and 1035</span>
+<span class="comment">% Hz respectively</span>
+<span class="comment">% The frequency plot has been zoomed in so that the user can verify that</span>
+<span class="comment">% the frequency peaks (denoted by the black horizontal lines) are at the</span>
+<span class="comment">% correct frequencies (965Hz and 1035Hz). Additionally, there are blue</span>
+<span class="comment">% dashed lines inserted at the corresponding frequencies.</span>
+
+<span class="comment">% Other frequency spectrum plotting functions:</span>
+<span class="comment">% spectrogram(xx, 1024, 'yaxis')</span>
+<span class="comment">% plotspec(xx);</span>
+
+<span class="comment">% To generate a sound:</span>
+<span class="comment">% soundsc(xx)</span>
+
+<span class="comment">% (b)</span>
+figure
+specgram(xx, 16, fsamp);
+colormap(1-gray(256));
+yline(1035, <span class="string">'b--'</span>);
+yline(965, <span class="string">'b--'</span>);
+title({[<span class="string">'Spectrogram of x(t) = '</span>, num2str(A), <span class="string">'cos(2\pi('</span>, num2str(fc), <span class="string">'-'</span>, num2str(delf), <span class="keyword">...</span>
+	<span class="string">')t) + '</span>, num2str(B), <span class="string">'cos(2\pi('</span>, num2str(fc), <span class="string">'+'</span>, num2str(delf), <span class="string">')t)'</span>], <span class="string">'Window Size: 16'</span>})
+
+<span class="comment">% This spectrogram appears to lose the resolution given in the plot above.</span>
+<span class="comment">% There are still two blue lines inserted at the frequency peaks however</span>
+<span class="comment">% they appear to blend together.</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab4_03.png" alt=""> <img vspace="5" hspace="5" src="yac25_lab4_04.png" alt=""> <img vspace="5" hspace="5" src="yac25_lab4_05.png" alt=""> <h2 id="5">4.3 Spectrogram of a Chirp</h2><pre class="codeinput"><span class="comment">% function [xx, tt] = chirpsyn( f1, f2, dur, fsamp )</span>
+f1 = 4000;
+f2 = 300;
+dur = 2;
+fsamp = 11025;
+
+[xx, tt] = chirpsyn( f1, f2, dur, fsamp );
+
+figure
+plot(tt,xx)
+title(<span class="string">'Plot of chirp: x(t_n) = Acos(2\pi\mut_n^2 + 2\pif_0t_n + \phi)'</span>)
+xlabel(<span class="string">'time (s)'</span>)
+ylabel(<span class="string">'amplitude'</span>)
+<span class="comment">% It is unknown why the beginning of the time plot is condensed and why the</span>
+<span class="comment">% signal does not originate at 0. This has been discussed with Taha and we</span>
+<span class="comment">% are still unable to figure out the reasoning behind this.</span>
+
+figure
+specgram(xx, 512, fsamp);
+colormap(1-gray(256))
+title(<span class="string">'Frequency Plot of "4.3 - Spectrogram of a Chirp"'</span>)
+
+<span class="comment">% plotspec(xx);</span>
+
+<span class="comment">% Upon listening to the signal, the chirp appears to go up then down then</span>
+<span class="comment">% back up. This is likely due to aliasing. Additionally, the signal appears</span>
+<span class="comment">% to increase and decrease linearly.</span>
+
+<span class="comment">% soundsc(xx)</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab4_06.png" alt=""> <img vspace="5" hspace="5" src="yac25_lab4_07.png" alt=""> <h2 id="6">4.4 A Chirp Puzzle</h2><pre class="codeinput"><span class="comment">% function [xx, tt] = chirpsyn( f1, f2, dur, fsamp )</span>
+f1 = -2500;
+f2 = 2500;
+dur = 3;
+fsamp = 11025;
+
+[xx, tt] = chirpsyn( f1, f2, dur, fsamp );
+
+figure
+plot(tt,xx)
+title(<span class="string">'"4.4 - A Chirp Puzzle" Plot'</span>)
+xlabel(<span class="string">'time (s)'</span>)
+ylabel(<span class="string">'amplitude'</span>)
+
+figure
+specgram(xx, 512, fsamp);
+colormap(1-gray(256))
+title(<span class="string">'Frequency Plot of "4.4 - A Chirp Puzzle"'</span>)
+
+<span class="comment">% plotspec(xx);</span>
+
+<span class="comment">% The signal appears to go both up and down.</span>
+<span class="comment">% soundsc(xx)</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab4_08.png" alt=""> <img vspace="5" hspace="5" src="yac25_lab4_09.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%{
+Yonatan Carver
+ECES 352 - Lab 4
+
+%}
+clear; clc; close all
+
+%% 2.4 MATLAB Synthesis of Chirp Signals
+
+fsamp = 11025;
+dt = 1/fsamp;
+dur = 1.8;
+tt = 0 : dt : dur;
+psi = 2 * pi * ( 100 + 200 * tt + 500 * tt .* tt );
+xx = real( 7.7 * exp(1j * psi) );
+soundsc( xx, fsamp );
+
+%% 3.2 Function for a Chirp
+
+% function [xx, tt] = chirpsyn( f1, f2, dur, fsamp )
+f1 = 3300;	% 3300 Hz
+f2 = 300;	% 300 Hz
+dur = 1.5;	% 1.5 seconds
+
+[xx, tt] = chirpsyn( f1, f2, dur );
+
+figure
+plot(tt,xx)
+figure
+plotspec(xx);
+% specgram(xx)
+% soundsc(xx)
+
+%% 4.1/4.2 Beat Notes & More on Spectrograms
+% (a)
+delf = 35;		% 35 Hz
+dur = 0.2;		% 0.2 sec
+fsamp = 11025;	% 11025 Hz
+fc = 1000;		% 1650 Hz
+A = 5;
+B = 20;
+
+% function [xx, tt] = beat( A, B, fc, delf, fsamp, dur )
+[xx, tt] = beat(A, B, fc, delf, fsamp, dur);
+
+figure
+plot(tt, xx)
+title(['x(t) = ', num2str(A), 'cos(2\pi(', num2str(fc), '-', num2str(delf), ...
+	')t) + ', num2str(B), 'cos(2\pi(', num2str(fc), '+', num2str(delf), ')t)'])
+xlabel('time (s)')
+ylabel('amplitude')
+
+% (b)
+figure
+specgram(xx, 2048, fsamp);
+colormap(1-gray(256))
+title({['Spectrogram of x(t) = ', num2str(A), 'cos(2\pi(', num2str(fc), '-', num2str(delf), ...
+	')t) + ', num2str(B), 'cos(2\pi(', num2str(fc), '+', num2str(delf), ')t)'], 'Window Size: 2048'})
+ylim([920 1080])	% zoom into the relevant region with frequency peaks
+yline(1035, 'bREPLACE_WITH_DASH_DASH', 'LineWidth', 3);
+yline(965, 'bREPLACE_WITH_DASH_DASH', 'LineWidth', 3);
+
+% There are two significant spikes in the spectrogram plot due to the
+% original signal being the sum of two cosines at frequencies 965 and 1035
+% Hz respectively
+% The frequency plot has been zoomed in so that the user can verify that
+% the frequency peaks (denoted by the black horizontal lines) are at the
+% correct frequencies (965Hz and 1035Hz). Additionally, there are blue
+% dashed lines inserted at the corresponding frequencies.
+
+% Other frequency spectrum plotting functions:
+% spectrogram(xx, 1024, 'yaxis')
+% plotspec(xx);
+
+% To generate a sound:
+% soundsc(xx)
+
+% (b)
+figure
+specgram(xx, 16, fsamp);
+colormap(1-gray(256));
+yline(1035, 'bREPLACE_WITH_DASH_DASH');
+yline(965, 'bREPLACE_WITH_DASH_DASH');
+title({['Spectrogram of x(t) = ', num2str(A), 'cos(2\pi(', num2str(fc), '-', num2str(delf), ...
+	')t) + ', num2str(B), 'cos(2\pi(', num2str(fc), '+', num2str(delf), ')t)'], 'Window Size: 16'})
+
+% This spectrogram appears to lose the resolution given in the plot above.
+% There are still two blue lines inserted at the frequency peaks however
+% they appear to blend together.
+
+
+%% 4.3 Spectrogram of a Chirp
+
+% function [xx, tt] = chirpsyn( f1, f2, dur, fsamp )
+f1 = 4000;
+f2 = 300;
+dur = 2;
+fsamp = 11025;
+
+[xx, tt] = chirpsyn( f1, f2, dur, fsamp );
+
+figure
+plot(tt,xx)
+title('Plot of chirp: x(t_n) = Acos(2\pi\mut_n^2 + 2\pif_0t_n + \phi)')
+xlabel('time (s)')
+ylabel('amplitude')
+% It is unknown why the beginning of the time plot is condensed and why the
+% signal does not originate at 0. This has been discussed with Taha and we
+% are still unable to figure out the reasoning behind this.
+
+figure
+specgram(xx, 512, fsamp);
+colormap(1-gray(256))
+title('Frequency Plot of "4.3 - Spectrogram of a Chirp"')
+
+% plotspec(xx);
+
+% Upon listening to the signal, the chirp appears to go up then down then
+% back up. This is likely due to aliasing. Additionally, the signal appears
+% to increase and decrease linearly.
+
+% soundsc(xx)
+%% 4.4 A Chirp Puzzle
+
+% function [xx, tt] = chirpsyn( f1, f2, dur, fsamp )
+f1 = -2500;
+f2 = 2500;
+dur = 3;
+fsamp = 11025;
+
+[xx, tt] = chirpsyn( f1, f2, dur, fsamp );
+
+figure
+plot(tt,xx)
+title('"4.4 - A Chirp Puzzle" Plot')
+xlabel('time (s)')
+ylabel('amplitude')
+
+figure
+specgram(xx, 512, fsamp);
+colormap(1-gray(256))
+title('Frequency Plot of "4.4 - A Chirp Puzzle"')
+
+% plotspec(xx);
+
+% The signal appears to go both up and down.
+% soundsc(xx)
+
+
+
+
+##### SOURCE END #####
+--></body></html>

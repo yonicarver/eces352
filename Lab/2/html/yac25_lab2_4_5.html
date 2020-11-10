@@ -1,0 +1,289 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>yac25_lab2_4_5</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-01-25"><meta name="DC.source" content="yac25_lab2_4_5.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">4 - Warm-Up: Complex Exponentials</a></li><li><a href="#3">4.1.1, 4.1.2, 4.1.3 Write the Function M-File</a></li><li><a href="#4">4.2 - Representation of Sinusoids with Complex Exponentials</a></li><li><a href="#5">(b), (c)</a></li><li><a href="#6">5 - Multipath Fading ==========================================</a></li><li><a href="#7">(b)</a></li><li><a href="#8">(c), (d), &amp; (e)</a></li></ul></div><pre class="codeinput"><span class="comment">% Yonatan Carver</span>
+<span class="comment">% ECES 352 - Lab 2 - Introduction to Complex Exponentials</span>
+
+clear ; clc ; close <span class="string">all</span>
+</pre><h2 id="2">4 - Warm-Up: Complex Exponentials</h2><p>function: mycos</p><pre class="codeinput"><span class="comment">% function [values, times] = mycos(A, w, phase, dur)</span>
+[t, val] = mycos(8, (75*pi), (-pi/3), 0.05);
+<span class="comment">% generates a plot</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab2_4_5_01.png" alt=""> <h2 id="3">4.1.1, 4.1.2, 4.1.3 Write the Function M-File</h2><p>function: syn_sin</p><pre class="codeinput">f1 = 440;
+f2 = 555;
+f3 = 660;
+
+X1 = 2000 * exp(1j * (pi/2));
+X2 = 2000 * exp(1j * (pi/2));
+X3 = 2000 * exp(1j * (pi/2));
+
+fs = 11000;
+dur = 1;	<span class="comment">% 1 second</span>
+
+<span class="comment">% function [xx, yy] = syn_sin(fk, Xk, fs, dur, tstart)</span>
+[x1, y1] = syn_sin([f1, f2, f3], [X1, X2, X3], fs, dur, 0);
+soundsc(x1)		<span class="comment">% play sound</span>
+</pre><h2 id="4">4.2 - Representation of Sinusoids with Complex Exponentials</h2><p>(a)</p><pre class="codeinput">tt = 0 : 1/1000 : 0.4;	<span class="comment">% range ot t that will cover 4 periods</span>
+signal = real( (2 * exp(1j * 25 * pi * tt)) - (2 * exp(1j * 25 * pi * (tt - 0.02))) + ((1 + 1j) * exp(1j * 25 * pi * tt)) );
+
+plot(tt, signal)
+grid <span class="string">on</span>
+title(<span class="string">'Re\{2e^{j25\pit} - 2e^{j25\pi(t-0.02)} + (1+j)e^{j25\pit}\}'</span>)
+</pre><img vspace="5" hspace="5" src="yac25_lab2_4_5_02.png" alt=""> <h2 id="5">(b), (c)</h2><pre class="codeinput"><span class="comment">% T = 0.08</span>
+<span class="comment">% w = (2*pi)/T = 78.54</span>
+<span class="comment">% phase = -w * t_d = -5.50</span>
+<span class="comment">% A = 4.2426 (2.1213)</span>
+
+<span class="comment">% A*exp(1j * w * t) * exp(1j * phase)</span>
+</pre><h2 id="6">5 - Multipath Fading ==========================================</h2><p>(a)</p><pre class="codeinput"><span class="comment">% vehicle location: (xv, 0)</span>
+<span class="comment">% transmitter location: (0, dt)</span>
+
+xv = 0 : 1/100 : 400;			<span class="comment">% vehicle position (x-value)</span>
+dt = 1700;						<span class="comment">% transmitter location (y-value)</span>
+
+c = 2.9e8;						<span class="comment">% speed of light</span>
+
+t1 = sqrt((xv.^2) + (dt.^2)) / c;	<span class="comment">% distance from transmitter to vehicle</span>
+
+<span class="comment">% fprintf('time delay from transmitter to vehicle: %i seconds\n', t1)</span>
+</pre><h2 id="7">(b)</h2><pre class="codeinput"><span class="comment">% reflector location: (dxr, dyr)</span>
+
+dxr = 150;
+dyr = 800;
+
+distance_t_to_r = sqrt(((dt-dyr).^2) + (dxr.^2)) / c;	<span class="comment">% distance from transmitter to reflector</span>
+distance_r_to_v = sqrt(((dyr).^2) + ((dxr-xv).^2)) / c;	<span class="comment">% distance from reflector to vehicle</span>
+t2 = (distance_t_to_r + distance_r_to_v);
+
+<span class="comment">% fprintf('time delay from transmitter to reflector to vehicle: %i seconds\n', t2)</span>
+</pre><h2 id="8">(c), (d), &amp; (e)</h2><pre class="codeinput">F = 133e6;					<span class="comment">% 133 MHz</span>
+tt = 0 : 1/100 : 400;		<span class="comment">% time range aka vehicle position 0m to +400m</span>
+st = cos(2 * pi * F * tt);	<span class="comment">% source signal</span>
+
+<span class="comment">% received signal at the vehicle</span>
+<span class="comment">%	=      s(t - t_1)							  - 0.8 * s(t - t_2)</span>
+rvt = real(exp( 1j .* 2 .* pi .* F .* (tt - t1))) - real( 0.8 .* exp( 1j .* 2 .* pi .* F .* (tt - t2)));
+
+plot(tt, rvt, <span class="string">'b'</span>)
+grid <span class="string">on</span>; hold <span class="string">on</span>
+legend(<span class="string">'r_v(t)'</span>)
+title(<span class="string">'Received signal, r_v(t), when vehicle position, x_v = 0m to +400m'</span>)
+xlabel(<span class="string">'distance (m)'</span>)
+
+<span class="comment">% find peak value from the complex amplitude</span>
+<span class="comment">% since there are multiple peaks, the maximum peak value is found using</span>
+<span class="comment">% max(y_rvt) - which finds the maximum y-value from the signal</span>
+[y_rvt, x_rvt] = findpeaks(rvt);
+x_rvt = tt(x_rvt);
+
+<span class="comment">% largest and smallest values of received signal strength</span>
+<span class="comment">% we get these values because of interference and signal degredation after</span>
+<span class="comment">% being reflected</span>
+fprintf(<span class="string">'Maximum amplitude value from r_v(t): %i\n'</span>, max(y_rvt))
+fprintf(<span class="string">'Minimum amplitude value from r_v(t): %i\n'</span>, min(y_rvt))
+
+<span class="comment">% there do not appear to be any vehicle positions where we get complete</span>
+<span class="comment">% signal cancellation</span>
+</pre><pre class="codeoutput">Maximum amplitude value from r_v(t): 1.774911e+00
+Minimum amplitude value from r_v(t): -1.220336e+00
+</pre><img vspace="5" hspace="5" src="yac25_lab2_4_5_03.png" alt=""> <pre class="codeinput">direct = real(exp( 1j .* 2 .* pi .* F .* (tt - t1)));
+reflected = real( 0.8 .* exp( 1j .* 2 .* pi .* F .* (tt - t2)));
+figure
+grid <span class="string">on</span>; hold <span class="string">on</span>
+plot(direct)
+plot(reflected)
+plot(rvt)
+
+title(<span class="string">'Plot of direct path, reflected path, and received signal'</span>)
+xlabel(<span class="string">'distance (m)'</span>)
+legend(<span class="string">'direct path'</span>, <span class="string">'reflected path'</span>, <span class="string">'r_v(t)'</span>)
+</pre><img vspace="5" hspace="5" src="yac25_lab2_4_5_04.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Yonatan Carver
+% ECES 352 - Lab 2 - Introduction to Complex Exponentials
+
+clear ; clc ; close all
+
+%% 4 - Warm-Up: Complex Exponentials
+% function: mycos
+
+% function [values, times] = mycos(A, w, phase, dur)
+[t, val] = mycos(8, (75*pi), (-pi/3), 0.05);
+% generates a plot
+
+%% 4.1.1, 4.1.2, 4.1.3 Write the Function M-File
+% function: syn_sin
+
+f1 = 440;
+f2 = 555;
+f3 = 660;
+
+X1 = 2000 * exp(1j * (pi/2));
+X2 = 2000 * exp(1j * (pi/2));
+X3 = 2000 * exp(1j * (pi/2));
+
+fs = 11000;
+dur = 1;	% 1 second
+
+% function [xx, yy] = syn_sin(fk, Xk, fs, dur, tstart)
+[x1, y1] = syn_sin([f1, f2, f3], [X1, X2, X3], fs, dur, 0);
+soundsc(x1)		% play sound
+
+%% 4.2 - Representation of Sinusoids with Complex Exponentials
+% (a)
+
+tt = 0 : 1/1000 : 0.4;	% range ot t that will cover 4 periods
+signal = real( (2 * exp(1j * 25 * pi * tt)) - (2 * exp(1j * 25 * pi * (tt - 0.02))) + ((1 + 1j) * exp(1j * 25 * pi * tt)) );
+
+plot(tt, signal)
+grid on
+title('Re\{2e^{j25\pit} - 2e^{j25\pi(t-0.02)} + (1+j)e^{j25\pit}\}')
+
+%% (b), (c)
+
+% T = 0.08
+% w = (2*pi)/T = 78.54
+% phase = -w * t_d = -5.50
+% A = 4.2426 (2.1213)
+
+% A*exp(1j * w * t) * exp(1j * phase)
+
+
+%% 5 - Multipath Fading ==========================================
+% (a)
+
+% vehicle location: (xv, 0)
+% transmitter location: (0, dt)
+
+xv = 0 : 1/100 : 400;			% vehicle position (x-value)
+dt = 1700;						% transmitter location (y-value)
+
+c = 2.9e8;						% speed of light
+
+t1 = sqrt((xv.^2) + (dt.^2)) / c;	% distance from transmitter to vehicle
+
+% fprintf('time delay from transmitter to vehicle: %i seconds\n', t1)
+
+
+%% (b)
+
+% reflector location: (dxr, dyr)
+
+dxr = 150;
+dyr = 800;
+
+distance_t_to_r = sqrt(((dt-dyr).^2) + (dxr.^2)) / c;	% distance from transmitter to reflector
+distance_r_to_v = sqrt(((dyr).^2) + ((dxr-xv).^2)) / c;	% distance from reflector to vehicle
+t2 = (distance_t_to_r + distance_r_to_v);
+
+% fprintf('time delay from transmitter to reflector to vehicle: %i seconds\n', t2)
+
+%% (c), (d), & (e)
+
+F = 133e6;					% 133 MHz
+tt = 0 : 1/100 : 400;		% time range aka vehicle position 0m to +400m
+st = cos(2 * pi * F * tt);	% source signal
+
+% received signal at the vehicle
+%	=      s(t - t_1)							  - 0.8 * s(t - t_2)
+rvt = real(exp( 1j .* 2 .* pi .* F .* (tt - t1))) - real( 0.8 .* exp( 1j .* 2 .* pi .* F .* (tt - t2)));
+
+plot(tt, rvt, 'b')
+grid on; hold on
+legend('r_v(t)')
+title('Received signal, r_v(t), when vehicle position, x_v = 0m to +400m')
+xlabel('distance (m)')
+
+% find peak value from the complex amplitude
+% since there are multiple peaks, the maximum peak value is found using
+% max(y_rvt) - which finds the maximum y-value from the signal
+[y_rvt, x_rvt] = findpeaks(rvt);
+x_rvt = tt(x_rvt);
+
+% largest and smallest values of received signal strength
+% we get these values because of interference and signal degredation after
+% being reflected
+fprintf('Maximum amplitude value from r_v(t): %i\n', max(y_rvt))
+fprintf('Minimum amplitude value from r_v(t): %i\n', min(y_rvt))
+
+% there do not appear to be any vehicle positions where we get complete
+% signal cancellation
+
+%%
+direct = real(exp( 1j .* 2 .* pi .* F .* (tt - t1)));
+reflected = real( 0.8 .* exp( 1j .* 2 .* pi .* F .* (tt - t2)));
+figure
+grid on; hold on
+plot(direct)
+plot(reflected)
+plot(rvt)
+
+title('Plot of direct path, reflected path, and received signal')
+xlabel('distance (m)')
+legend('direct path', 'reflected path', 'r_v(t)')
+##### SOURCE END #####
+--></body></html>

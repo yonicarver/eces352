@@ -1,0 +1,418 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>yac25_lab3</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-02-01"><meta name="DC.source" content="yac25_lab3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Lab 3.1.1 =====================================================</a></li><li><a href="#3">Lab 3.1.2 =====================================================</a></li><li><a href="#4">(2)</a></li><li><a href="#5">(3)</a></li><li><a href="#6">(4)</a></li><li><a href="#7">(6)</a></li><li><a href="#8">(8)</a></li><li><a href="#9">Lab 3.2.1 =====================================================</a></li><li><a href="#10">(1)</a></li><li><a href="#11">(2)</a></li><li><a href="#12">(3)</a></li><li><a href="#13">3.2.3 =========================================================</a></li><li><a href="#14">3.3.1 =========================================================</a></li></ul></div><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">Yonatan Carver
+</span><span class="comment">ECES 352 - Lab 3
+</span><span class="comment">
+</span><span class="comment">%}
+</span>clear; clc; close <span class="string">all</span>
+</pre><h2 id="2">Lab 3.1.1 =====================================================</h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">1) 31 results for "hbb"
+</span><span class="comment">3) 280 results for "hbb AND human[orgn]"
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre><h2 id="3">Lab 3.1.2 =====================================================</h2><p>(1)</p><pre class="codeinput">w = 10;					<span class="comment">% 10Hz</span>
+Fs = 100;				<span class="comment">% 100Hz</span>
+tt = 0 : 1/Fs : 1;		<span class="comment">% time axis</span>
+
+x = cos(w * tt);
+
+<span class="comment">% plot(tt, x);</span>
+<span class="comment">% grid on</span>
+<span class="comment">% xlabel('time (s)')</span>
+<span class="comment">% title('One second of cos(10Hz * tt) sampled at F_s = 100Hz')</span>
+</pre><h2 id="4">(2)</h2><pre class="codeinput">N = 64;
+fft_x = abs(fftshift(fft(x, N)));	<span class="comment">% N-point FFT</span>
+</pre><h2 id="5">(3)</h2><p>range = 0 : 1 : 63;</p><pre class="codeinput">range = linspace(0, 63, N);
+figure
+plot(range, fft_x)
+grid <span class="string">on</span>
+xlabel(<span class="string">'Frequency (Hz)'</span>)
+title([<span class="string">'Hz-Frequency Plot using '</span>, num2str(N), <span class="string">'-point FFT'</span>])
+
+<span class="comment">% [yy, xx] = findpeaks(fft_x);</span>
+<span class="comment">% frequency spikes @ f = 26 &amp; 38</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab3_01.png" alt=""> <h2 id="6">(4)</h2><pre class="codeinput">range = linspace(-50, 50, N);	<span class="comment">% plot from -50 to 50 (100Hz sampling rate)</span>
+
+figure
+plot(range, fft_x)
+grid <span class="string">on</span>
+xlabel(<span class="string">'Frequency (Hz)'</span>)
+title([<span class="string">'Hz-Frequency Plot using '</span>, num2str(N), <span class="string">'-point FFT'</span>])
+
+<span class="comment">% frequency spikes @ -8.7302 &amp; 10.3175</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab3_02.png" alt=""> <h2 id="7">(6)</h2><pre class="codeinput">range = linspace(-pi, pi, N);
+figure
+plot(range, fft_x)
+grid <span class="string">on</span>
+xlabel(<span class="string">'Frequency (Hz)'</span>)
+title([<span class="string">'Hz-Frequency Plot using '</span>, num2str(N), <span class="string">'-point FFT'</span>])
+
+<span class="comment">% frequency spikes @ -0.5484 &amp; 0.6483</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab3_03.png" alt=""> <h2 id="8">(8)</h2><pre class="codeinput">fft_x = abs(fftshift(fft(x, 1024)));     <span class="comment">% 1024-point fft</span>
+range = linspace(-pi, pi, 1024);
+figure
+plot(range, fft_x)
+grid <span class="string">on</span>
+xlabel(<span class="string">'Frequency (Hz)'</span>)
+title([<span class="string">'Hz-Frequency Plot using '</span>, num2str(N), <span class="string">'-point FFT'</span>])
+[yy, xx] = findpeaks(fft_x);
+
+<span class="comment">% frequency spikes @ -0.6295 &amp; 0.6357</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab3_04.png" alt=""> <h2 id="9">Lab 3.2.1 =====================================================</h2><pre class="codeinput">clear; clc; close <span class="string">all</span>
+
+hbb = genbankread(<span class="string">'hbb_region_chr11.gb'</span>);   <span class="comment">% load *.gb file as a struct</span>
+cds_indices = hbb.CDS.indices;    <span class="comment">% get range of indices of CDS</span>
+</pre><h2 id="10">(1)</h2><p>There are 5 CDS regions in the sequence length(hbb.CDS)</p><h2 id="11">(2)</h2><p>The length of hbb.CDS(1).translation is 147 length(hbb.CDS(1).translation)</p><h2 id="12">(3)</h2><pre class="codeinput"><span class="comment">% use function "get_sequence_ft"</span>
+<span class="comment">% function sequence_FT = get_sequence_ft(hbb, sequence_number)</span>
+
+N = 1024;
+
+sequence1_ft = get_sequence_ft(hbb, 1, N);
+sequence2_ft = get_sequence_ft(hbb, 2, N);
+sequence3_ft = get_sequence_ft(hbb, 3, N);
+
+figure
+plot(sequence1_ft)
+title(<span class="string">'FFT of Coding Region: Sequence 1, from cds\_index 1 to index 2'</span>)
+grid <span class="string">on</span>
+
+figure
+plot(sequence2_ft)
+title(<span class="string">'FFT of Coding Region: Sequence 2, from cds\_index 3 to index 4'</span>)
+grid <span class="string">on</span>
+
+figure
+plot(sequence3_ft)
+title(<span class="string">'FFT of Coding Region: Sequence 3, from cds\_index 5 to index 6'</span>)
+grid <span class="string">on</span>
+
+[y1, x1] = findpeaks(sequence1_ft);
+[y2, x2] = findpeaks(sequence2_ft);
+[y3, x3] = findpeaks(sequence3_ft);
+
+<span class="comment">%{
+</span><span class="comment">signal: sequence1
+</span><span class="comment">a = sort(y1);
+</span><span class="comment">b = sort(y2);
+</span><span class="comment">c = sort(y3);
+</span><span class="comment">
+</span><span class="comment">x1(find(y1 == a([end])))
+</span><span class="comment">232.4562
+</span><span class="comment">frequency peaks @ 308 &amp; 690
+</span><span class="comment">===============================
+</span><span class="comment">x2(find(y2 == b([end])))
+</span><span class="comment">251.8894
+</span><span class="comment">frequency peaks @ 292 &amp; 706
+</span><span class="comment">
+</span><span class="comment">x2(find(y2 == b([end-2])))
+</span><span class="comment">224.3544
+</span><span class="comment">frequency peaks @ 92 &amp; 906
+</span><span class="comment">
+</span><span class="comment">x2(find(y2 == b([end-4])))
+</span><span class="comment">209.4380
+</span><span class="comment">frequency peaks @ 329 &amp; 669
+</span><span class="comment">===============================
+</span><span class="comment">x3(find(y3 == c([end])))
+</span><span class="comment">165.9027
+</span><span class="comment">frequency peaks @ 328 &amp; 670
+</span><span class="comment">
+</span><span class="comment">x3(find(y3 == c([end-2])))
+</span><span class="comment">142.8912
+</span><span class="comment">frequency peaks @ 164 &amp; 834
+</span><span class="comment">
+</span><span class="comment">x3(find(y3 == c([end-4])))
+</span><span class="comment">126.3875
+</span><span class="comment">frequency peaks @ 230 &amp; 768
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab3_05.png" alt=""> <img vspace="5" hspace="5" src="yac25_lab3_06.png" alt=""> <img vspace="5" hspace="5" src="yac25_lab3_07.png" alt=""> <h2 id="13">3.2.3 =========================================================</h2><p>N = 1024;</p><pre class="codeinput">sequence1a_ft = get_sequence_ft(hbb, <span class="string">'1a'</span>, N);
+sequence2a_ft = get_sequence_ft(hbb, <span class="string">'2a'</span>, N);
+
+figure
+plot(sequence1a_ft)
+title(<span class="string">'FFT of Non-Coding Region: Sequence 1, from cds\_index 2 to index 3'</span>)
+grid <span class="string">on</span>
+
+figure
+plot(sequence2a_ft)
+title(<span class="string">'FFT of Non-Coding Region: Sequence 4, from cds\_index 3 to index 5'</span>)
+grid <span class="string">on</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab3_08.png" alt=""> <img vspace="5" hspace="5" src="yac25_lab3_09.png" alt=""> <h2 id="14">3.3.1 =========================================================</h2><pre class="codeinput">DNA_SEQUENCE = hbb.Sequence;
+WINDOW_LENGTH = 10;
+NFFT = 1024;
+
+<span class="comment">% DNA_SEQUENCE = hbb.Sequence;</span>
+<span class="comment">% WINDOW_LENGTH = 1000;</span>
+<span class="comment">% NFFT = 1024;</span>
+
+output = threebasefreq_stft(DNA_SEQUENCE, WINDOW_LENGTH, NFFT);
+plot(output)
+</pre><img vspace="5" hspace="5" src="yac25_lab3_10.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%{
+Yonatan Carver
+ECES 352 - Lab 3
+
+%}
+clear; clc; close all
+
+%% Lab 3.1.1 =====================================================
+
+%{
+1) 31 results for "hbb"
+3) 280 results for "hbb AND human[orgn]"
+
+%}
+
+%% Lab 3.1.2 =====================================================
+% (1)
+w = 10;					% 10Hz
+Fs = 100;				% 100Hz
+tt = 0 : 1/Fs : 1;		% time axis
+
+x = cos(w * tt);
+
+% plot(tt, x);
+% grid on
+% xlabel('time (s)')
+% title('One second of cos(10Hz * tt) sampled at F_s = 100Hz')
+
+%% (2)
+N = 64;
+fft_x = abs(fftshift(fft(x, N)));	% N-point FFT
+
+%% (3)
+% range = 0 : 1 : 63;
+range = linspace(0, 63, N);
+figure
+plot(range, fft_x)
+grid on
+xlabel('Frequency (Hz)')
+title(['Hz-Frequency Plot using ', num2str(N), '-point FFT'])
+
+% [yy, xx] = findpeaks(fft_x);
+% frequency spikes @ f = 26 & 38
+
+%% (4)
+range = linspace(-50, 50, N);	% plot from -50 to 50 (100Hz sampling rate)
+
+figure
+plot(range, fft_x)
+grid on
+xlabel('Frequency (Hz)')
+title(['Hz-Frequency Plot using ', num2str(N), '-point FFT'])
+
+% frequency spikes @ -8.7302 & 10.3175
+
+%% (6)
+range = linspace(-pi, pi, N);
+figure
+plot(range, fft_x)
+grid on
+xlabel('Frequency (Hz)')
+title(['Hz-Frequency Plot using ', num2str(N), '-point FFT'])
+
+% frequency spikes @ -0.5484 & 0.6483
+
+%% (8)
+fft_x = abs(fftshift(fft(x, 1024)));     % 1024-point fft
+range = linspace(-pi, pi, 1024);
+figure
+plot(range, fft_x)
+grid on
+xlabel('Frequency (Hz)')
+title(['Hz-Frequency Plot using ', num2str(N), '-point FFT'])
+[yy, xx] = findpeaks(fft_x);
+
+% frequency spikes @ -0.6295 & 0.6357
+
+
+
+
+
+
+
+
+
+%% Lab 3.2.1 =====================================================
+
+clear; clc; close all
+
+hbb = genbankread('hbb_region_chr11.gb');   % load *.gb file as a struct
+cds_indices = hbb.CDS.indices;    % get range of indices of CDS
+
+%% (1)
+% There are 5 CDS regions in the sequence
+% length(hbb.CDS)
+
+
+%% (2)
+% The length of hbb.CDS(1).translation is 147
+% length(hbb.CDS(1).translation)
+
+%% (3)
+
+% use function "get_sequence_ft"
+% function sequence_FT = get_sequence_ft(hbb, sequence_number)
+
+N = 1024;
+
+sequence1_ft = get_sequence_ft(hbb, 1, N);
+sequence2_ft = get_sequence_ft(hbb, 2, N);
+sequence3_ft = get_sequence_ft(hbb, 3, N);
+
+figure
+plot(sequence1_ft)
+title('FFT of Coding Region: Sequence 1, from cds\_index 1 to index 2')
+grid on
+
+figure
+plot(sequence2_ft)
+title('FFT of Coding Region: Sequence 2, from cds\_index 3 to index 4')
+grid on
+
+figure
+plot(sequence3_ft)
+title('FFT of Coding Region: Sequence 3, from cds\_index 5 to index 6')
+grid on
+
+[y1, x1] = findpeaks(sequence1_ft);
+[y2, x2] = findpeaks(sequence2_ft);
+[y3, x3] = findpeaks(sequence3_ft);
+
+%{
+signal: sequence1
+a = sort(y1);
+b = sort(y2);
+c = sort(y3);
+
+x1(find(y1 == a([end])))
+232.4562
+frequency peaks @ 308 & 690
+===============================
+x2(find(y2 == b([end])))
+251.8894
+frequency peaks @ 292 & 706
+
+x2(find(y2 == b([end-2])))
+224.3544
+frequency peaks @ 92 & 906
+
+x2(find(y2 == b([end-4])))
+209.4380
+frequency peaks @ 329 & 669
+===============================
+x3(find(y3 == c([end])))
+165.9027
+frequency peaks @ 328 & 670
+
+x3(find(y3 == c([end-2])))
+142.8912
+frequency peaks @ 164 & 834
+
+x3(find(y3 == c([end-4])))
+126.3875
+frequency peaks @ 230 & 768
+
+%}
+
+
+%% 3.2.3 =========================================================
+% N = 1024;
+sequence1a_ft = get_sequence_ft(hbb, '1a', N);
+sequence2a_ft = get_sequence_ft(hbb, '2a', N);
+
+figure
+plot(sequence1a_ft)
+title('FFT of Non-Coding Region: Sequence 1, from cds\_index 2 to index 3')
+grid on
+
+figure
+plot(sequence2a_ft)
+title('FFT of Non-Coding Region: Sequence 4, from cds\_index 3 to index 5')
+grid on
+
+%% 3.3.1 =========================================================
+DNA_SEQUENCE = hbb.Sequence;
+WINDOW_LENGTH = 10;
+NFFT = 1024;
+
+% DNA_SEQUENCE = hbb.Sequence;
+% WINDOW_LENGTH = 1000;
+% NFFT = 1024;
+
+output = threebasefreq_stft(DNA_SEQUENCE, WINDOW_LENGTH, NFFT);
+plot(output)
+
+
+
+
+##### SOURCE END #####
+--></body></html>

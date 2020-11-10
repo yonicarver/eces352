@@ -1,0 +1,238 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>yac25_lab5</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-02-08"><meta name="DC.source" content="yac25_lab5.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">3.1 Note Frequency Function</a></li><li><a href="#3">3.2 Synthesize a Scale</a></li><li><a href="#4">3.3 Spectrogram: Two M-files</a></li></ul></div><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">Yonatan Carver
+</span><span class="comment">ECES 352 - Lab 5
+</span><span class="comment">
+</span><span class="comment">%}
+</span>clear; clc; close <span class="string">all</span>
+</pre><h2 id="2">3.1 Note Frequency Function</h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">
+</span><span class="comment">function xx = key2note(X, keynum, dur)
+</span><span class="comment">% KEY2NOTE	Produce a sinusoidal waveform corresponding to a given piano
+</span><span class="comment">% key number
+</span><span class="comment">
+</span><span class="comment">% usage:
+</span><span class="comment">% xx = the output sinusoudal waveform
+</span><span class="comment">% X = complex amplitude for the sinusoid, X = A*exp(j*phi)
+</span><span class="comment">% keynum = the piano keyboard number of the desired note
+</span><span class="comment">% dur = the duration (in seconds) of the output note
+</span><span class="comment">
+</span><span class="comment">fs = 11025;
+</span><span class="comment">tt = 0 : (1/fs) : dur;
+</span><span class="comment">freq = (440) * 2^((keynum-49)/12);
+</span><span class="comment">xx = real( X * exp(j * 2 * pi * freq * tt));
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre><h2 id="3">3.2 Synthesize a Scale</h2><p>playscale.m</p><pre class="codeinput">scale.keys = [40 42 44 45 47 49 51 52];
+<span class="comment">% Notes =	  C  D  E  F  G  A  B  C</span>
+
+<span class="comment">% Key 40 is middle-C</span>
+scale.durations = 0.3 * ones(1, length(scale.keys));
+fs = 11025;		<span class="comment">% 8000Hz</span>
+xx = zeros(1, sum(scale.durations) * fs + length(scale.keys));
+n1 = 1;
+<span class="keyword">for</span> kk = 1:length(scale.keys)
+	keynum = scale.keys(kk);
+	<span class="comment">% function xx = key2note(X, keynum, dur)</span>
+	tone = key2note(20, keynum, scale.durations);
+	n2 = n1 + length(tone) - 1;
+	xx(n1:n2) = xx(n1:n2) + tone;
+	n1 = n2 + 1;
+<span class="keyword">end</span>
+
+<span class="comment">% soundsc(xx, fs)</span>
+</pre><h2 id="4">3.3 Spectrogram: Two M-files</h2><pre class="codeinput">specgram(xx, 4096, fs);
+title(<span class="string">'Spectrogram of Scale'</span>)
+ylim([200 600])
+
+yline(261.63, <span class="string">'--'</span>,<span class="string">'Key 40, Note C'</span>);
+yline(293.66, <span class="string">'--'</span>,<span class="string">'Key 42, Note D'</span>);
+yline(329.63, <span class="string">'--'</span>,<span class="string">'Key 44, Note E'</span>);
+yline(349.23, <span class="string">'--'</span>,<span class="string">'Key 45, Note F'</span>);
+yline(392.00, <span class="string">'--'</span>,<span class="string">'Key 47, Note G'</span>);
+yline(440.00, <span class="string">'--'</span>,<span class="string">'Key 49, Note A'</span>);
+yline(493.88, <span class="string">'--'</span>,<span class="string">'Key 51, Note B'</span>);
+yline(523.25, <span class="string">'--'</span>,<span class="string">'Key 52, Note C'</span>);
+</pre><img vspace="5" hspace="5" src="yac25_lab5_01.png" alt=""> <p>Beethoven Ode To Joy</p><pre class="codeinput">scale.keys = [44 44 45 47 47 45 44 42 40 40 42 44 44 42 42 44 44 45 47 47 45 44 42 40 40 42 44 42 40 40];
+<span class="comment">% Notes =     E  E  F  G  G  F  E  D  C  C  D  E  E  D  D  E  E  F  G  G  F  E  D  C  C  D  E  D  C  C</span>
+
+<span class="comment">% Key 40 is middle-C</span>
+scale.durations = 0.3 * ones(1, length(scale.keys));
+fs = 11025;		<span class="comment">% 8000Hz</span>
+xx = zeros(1, sum(scale.durations) * fs + length(scale.keys));
+n1 = 1;
+<span class="keyword">for</span> kk = 1:length(scale.keys)
+	keynum = scale.keys(kk);
+	<span class="comment">% function xx = key2note(X, keynum, dur)</span>
+	tone = key2note(20, keynum, scale.durations);
+	n2 = n1 + length(tone) - 1;
+	xx(n1:n2) = xx(n1:n2) + tone;
+	n1 = n2 + 1;
+<span class="keyword">end</span>
+
+<span class="comment">% soundsc(xx)</span>
+
+specgram(xx, 4096, fs);
+title(<span class="string">'Spectrogram of Beethoven Ode to Joy'</span>)
+ylim([200 600])
+</pre><img vspace="5" hspace="5" src="yac25_lab5_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%{
+Yonatan Carver
+ECES 352 - Lab 5
+
+%}
+clear; clc; close all
+
+%% 3.1 Note Frequency Function
+%{
+
+function xx = key2note(X, keynum, dur)
+% KEY2NOTE	Produce a sinusoidal waveform corresponding to a given piano
+% key number
+
+% usage:
+% xx = the output sinusoudal waveform
+% X = complex amplitude for the sinusoid, X = A*exp(j*phi)
+% keynum = the piano keyboard number of the desired note
+% dur = the duration (in seconds) of the output note
+
+fs = 11025;
+tt = 0 : (1/fs) : dur;
+freq = (440) * 2^((keynum-49)/12);
+xx = real( X * exp(j * 2 * pi * freq * tt));
+
+%}
+
+%% 3.2 Synthesize a Scale
+% playscale.m
+
+scale.keys = [40 42 44 45 47 49 51 52];
+% Notes =	  C  D  E  F  G  A  B  C
+
+% Key 40 is middle-C
+scale.durations = 0.3 * ones(1, length(scale.keys));
+fs = 11025;		% 8000Hz
+xx = zeros(1, sum(scale.durations) * fs + length(scale.keys));
+n1 = 1;
+for kk = 1:length(scale.keys)
+	keynum = scale.keys(kk);
+	% function xx = key2note(X, keynum, dur)
+	tone = key2note(20, keynum, scale.durations);
+	n2 = n1 + length(tone) - 1;
+	xx(n1:n2) = xx(n1:n2) + tone;
+	n1 = n2 + 1;
+end
+
+% soundsc(xx, fs)
+
+%% 3.3 Spectrogram: Two M-files
+specgram(xx, 4096, fs);
+title('Spectrogram of Scale')
+ylim([200 600])
+
+yline(261.63, 'REPLACE_WITH_DASH_DASH','Key 40, Note C');
+yline(293.66, 'REPLACE_WITH_DASH_DASH','Key 42, Note D');
+yline(329.63, 'REPLACE_WITH_DASH_DASH','Key 44, Note E');
+yline(349.23, 'REPLACE_WITH_DASH_DASH','Key 45, Note F');
+yline(392.00, 'REPLACE_WITH_DASH_DASH','Key 47, Note G');
+yline(440.00, 'REPLACE_WITH_DASH_DASH','Key 49, Note A');
+yline(493.88, 'REPLACE_WITH_DASH_DASH','Key 51, Note B');
+yline(523.25, 'REPLACE_WITH_DASH_DASH','Key 52, Note C');
+
+
+%%
+% Beethoven Ode To Joy
+scale.keys = [44 44 45 47 47 45 44 42 40 40 42 44 44 42 42 44 44 45 47 47 45 44 42 40 40 42 44 42 40 40];
+% Notes =     E  E  F  G  G  F  E  D  C  C  D  E  E  D  D  E  E  F  G  G  F  E  D  C  C  D  E  D  C  C
+
+% Key 40 is middle-C
+scale.durations = 0.3 * ones(1, length(scale.keys));
+fs = 11025;		% 8000Hz
+xx = zeros(1, sum(scale.durations) * fs + length(scale.keys));
+n1 = 1;
+for kk = 1:length(scale.keys)
+	keynum = scale.keys(kk);
+	% function xx = key2note(X, keynum, dur)
+	tone = key2note(20, keynum, scale.durations);
+	n2 = n1 + length(tone) - 1;
+	xx(n1:n2) = xx(n1:n2) + tone;
+	n1 = n2 + 1;
+end
+
+% soundsc(xx)
+
+specgram(xx, 4096, fs);
+title('Spectrogram of Beethoven Ode to Joy')
+ylim([200 600])
+
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,396 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>yac25_lab1_3</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-01-18"><meta name="DC.source" content="yac25_lab1_3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">(a)</a></li><li><a href="#3">(b)</a></li><li><a href="#4">(c)</a></li><li><a href="#5">(d)</a></li><li><a href="#6">3.1 Theoretical Calculations</a></li><li><a href="#7">(a) &amp; (b)</a></li><li><a href="#8">(c)</a></li><li><a href="#9">3.2 Complex Amplitude</a></li></ul></div><pre class="codeinput"><span class="comment">% Yonatan Carver</span>
+<span class="comment">% ECES 352 - Lab 1</span>
+
+<span class="comment">% 3 - Laboratory: Manipulating Sinusoids with MATLAB</span>
+
+clear ; clc ; close <span class="string">all</span>
+</pre><h2 id="2">(a)</h2><pre class="codeinput">tt = -0.001 : 0.000001 : 0.001;
+<span class="comment">% These bounds were chosen so that tt covers a range of t that will exhibit</span>
+<span class="comment">% approximately 2 cycles of the 1250 Hz sinusoids</span>
+<span class="comment">% The step size was chosen so that there are more than 25 samples per</span>
+<span class="comment">% period</span>
+</pre><h2 id="3">(b)</h2><pre class="codeinput">A2 = 21;                <span class="comment">% age</span>
+A1 = 1.2 * A2;			<span class="comment">% = 25.2</span>
+M = 7;                  <span class="comment">% month of birthday</span>
+D = 30;                 <span class="comment">% day of birthday</span>
+freq = 1250;            <span class="comment">% frequency</span>
+T = 1/freq;             <span class="comment">% = 0.0008, period</span>
+
+<span class="comment">% tm1 &amp; tm2 are both time shifts in the sinusoids</span>
+<span class="comment">% tm1 causes the sinusoid to be shifted to the left</span>
+tm1 = -(37.2/M) * T;    <span class="comment">% = -0.0043, time delay 1</span>
+<span class="comment">% tm2 causes the sinusoid to be shifted to the right</span>
+tm2 = (41.3/D) * T;     <span class="comment">% = 0.0011, time delay 2</span>
+
+<span class="comment">% Generate two 1250 Hz sinusoids with amplitude A1 &amp; A2 and time shifts tm1</span>
+<span class="comment">% &amp; tm2</span>
+x1 = A1 * cos( 2 * pi * freq * (tt - tm1));
+x2 = A2 * cos( 2 * pi * freq * (tt - tm2));
+</pre><h2 id="4">(c)</h2><p>Sum of x1 and x2 sinusoids</p><pre class="codeinput">x3 = x1 + x2;
+</pre><h2 id="5">(d)</h2><pre class="codeinput">subplot(3,1,1)
+plot( tt, x1, <span class="string">'r-'</span>)
+grid <span class="string">on</span>
+<span class="comment">% title('PLOT OF x1')</span>
+title(<span class="string">'PLOT OF A_1cos(2\pi(1250)(t - t_m_1))'</span>)
+xlabel(<span class="string">'TIME (sec)'</span>)
+annotation(<span class="string">'textbox'</span>, [0.02 0.7 0.09 0.2], <span class="string">'String'</span>, {<span class="keyword">...</span>
+	<span class="string">'A_1 = 12.6'</span> <span class="keyword">...</span>
+	<span class="string">'t_m_1 = -0.251'</span> <span class="keyword">...</span>
+	<span class="string">'\phi_1 = 1.971'</span>}, <span class="keyword">...</span>
+	<span class="string">'FontSize'</span>, 14)
+
+subplot(3,1,2)
+plot( tt, x2, <span class="string">'m-'</span>)
+hold <span class="string">on</span>
+<span class="comment">% plot(tt, A2*cos(2*pi*1250*tt))	% for testing purposes</span>
+grid <span class="string">on</span>
+<span class="comment">% title('PLOT OF x2')</span>
+title(<span class="string">'PLOT OF A_2cos(2\pi(1250)(t - t_m_2))'</span>)
+xlabel(<span class="string">'TIME (sec)'</span>)
+annotation(<span class="string">'textbox'</span>, [0.02 0.4 0.09 0.2], <span class="string">'String'</span>, {<span class="keyword">...</span>
+	<span class="string">'A_2 = 10.5'</span> <span class="keyword">...</span>
+	<span class="string">'t_m_2 = 0.301'</span> <span class="keyword">...</span>
+	<span class="string">'\phi_2 = -2.364'</span>}, <span class="keyword">...</span>
+	<span class="string">'FontSize'</span>, 14)
+
+subplot(3,1,3)
+plot( tt, x3, <span class="string">'b-'</span>)
+hold <span class="string">on</span>
+<span class="comment">% plot(tt, 26.3*cos(2*pi*1250*tt))	% for testing purposes</span>
+grid <span class="string">on</span>
+title(<span class="string">'PLOT OF x3 = x1 + x2'</span>)
+xlabel(<span class="string">'TIME (sec)'</span>)
+annotation(<span class="string">'textbox'</span>, [0.02 0.1 0.09 0.2], <span class="string">'String'</span>, {<span class="keyword">...</span>
+	<span class="string">'A_3 = 13.5'</span> <span class="keyword">...</span>
+	<span class="string">'t_m_3 = 0.442'</span> <span class="keyword">...</span>
+	<span class="string">'\phi_3 = -(2\pi * T) * t_d = -3.471'</span>}, <span class="keyword">...</span>
+	<span class="string">'FontSize'</span>, 10)
+
+sgtitle(<span class="string">'Manipulating Sinusoids with MATLAB'</span>)	<span class="comment">% subplot title</span>
+
+hold <span class="string">on</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab1_3_01.png" alt=""> <h2 id="6">3.1 Theoretical Calculations</h2><h2 id="7">(a) &amp; (b)</h2><pre class="codeinput"><span class="comment">% Calculations for time_delay, amplitude, phase (phi), and omega (w)</span>
+
+<span class="comment">% The amplitude (P-P) of the signals were found using the findpeaks()</span>
+<span class="comment">% function. This function returns the coordinates (x, y) of the maxima on</span>
+<span class="comment">% the graph. One must convert the function's returned x value to be on the</span>
+<span class="comment">% same scale as tt (the time window).</span>
+
+<span class="comment">% T (period) is found by calculating the distances between two peaks of the</span>
+<span class="comment">% signal (found using the findpeaks() function), i.e. subtracting two</span>
+<span class="comment">% subsequent x values</span>
+
+<span class="comment">% Omega (w) is found using the equation: (2pi)/T, where T is the period of</span>
+<span class="comment">% the sinusoid</span>
+
+<span class="comment">% Phi (phase) is found using the equation: w*-t_d, where w is the frequency</span>
+<span class="comment">% and t_d is the time delay</span>
+
+<span class="comment">% x1 amplitude = 12.6 (25.2 P-P)</span>
+[y_x1, x_x1] = findpeaks(x1);	<span class="comment">% find x &amp; y values of peaks</span>
+<span class="comment">% x1_x_peaks = tt(x_x1)			% get actual x values from tt</span>
+<span class="comment">% peak 1: (-0.251, 25.2)</span>
+<span class="comment">% peak 2: (0.549, 25.2)</span>
+<span class="comment">% T_x1 = 0.549 - -0.251			% T = 0.8 (same for all sinusoids)</span>
+w_x1 = 2 * pi / 0.8;			<span class="comment">% w = 7.854</span>
+phi_x1 = -7.854 * -0.251;		<span class="comment">% phi = 1.971</span>
+
+<span class="comment">% x2 amplitude = 10.5 (21 P-P)</span>
+[y_x2, x_x2] = findpeaks(x2);	<span class="comment">% find x &amp; y values of peaks</span>
+<span class="comment">% x2_x_peaks = tt(x_x2)			% get actual x values from tt</span>
+<span class="comment">% peak 1: (-0.5, 21)</span>
+<span class="comment">% peak 2: (0.301, 21)</span>
+<span class="comment">% T_x2 = 0.301 - -0.5			% T = 0.8 (same for all sinusoids)</span>
+w_x2 = 2 * pi / 0.8;			<span class="comment">% w = 7.854</span>
+phi_x2 = -7.854 * 0.301;		<span class="comment">% phi = -2.364</span>
+
+<span class="comment">% x3 amplitude = 13.5 (26.3 P-P)</span>
+[y_x3, x_x3] = findpeaks(x3);	<span class="comment">% find x &amp; y values of peaks</span>
+<span class="comment">% x3_x_peaks = tt(x_x3)			% get actual x values from tt</span>
+<span class="comment">% peak 1: (-0.358, 26.3)</span>
+<span class="comment">% peak 2: (0.442, 26.3)</span>
+<span class="comment">% T_x3 = 0.442 - -0.358			% T = 0.8 (same for all sinusoids)</span>
+w_x3 = 2 * pi / 0.8;			<span class="comment">% w = 7.854</span>
+phi_x3 = -7.854 * 0.442;		<span class="comment">% phi = -3.471</span>
+</pre><h2 id="8">(c)</h2><pre class="codeinput">x1_exp = A1 * exp(1j * 2500 * pi * tt); <span class="comment">%* exp(1j * 1250 * 2 * pi * -0.0043);	% x1 written in exponential form</span>
+x2_exp = A2 * exp(1j * 2500 * pi * tt); <span class="comment">%* exp(1j * 1250 * 2 * pi * 0.0011);	% x2 written in exponential form</span>
+x3_new = real(x1_exp) + real(x2_exp);	<span class="comment">% sum of real parts of x1 &amp; x2</span>
+
+[y_x3_new, x_x3_new] = findpeaks(x3_new);	<span class="comment">% find x &amp; y values of peaks</span>
+x3_new_x_peaks = tt(x_x3_new);				<span class="comment">% get actual x values from tt</span>
+<span class="comment">% peak 1: (-0.000388, 32.8028)</span>
+<span class="comment">% peak 2: (0.0004120, 32.8028)</span>
+<span class="comment">% Amplitude = 16.4014 (32.8028 P-P)</span>
+</pre><h2 id="9">3.2 Complex Amplitude</h2><pre class="codeinput"><span class="comment">% Generate values of the sinusoid x_1(t) using complex-amplitude</span>
+<span class="comment">% representation:</span>
+figure; plot(tt, real(x1_exp)); grid <span class="string">on</span>
+title(<span class="string">'3.2 Complex Amplitude: x_1(t) using complex-amplitude representation'</span>)
+xlabel(<span class="string">'TIME (sec)'</span>)
+
+
+x11 = 25.2*exp(1j * 10.75 * pi);		<span class="comment">% x1 in the form: x + jy = -17.8191 + j17.8191</span>
+phasorr_x11 = @(x11) [abs(x11) angle(x11)];		<span class="comment">% angle in radians</span>
+phasorr_x11(x11);	<span class="comment">% = 25.2 * exp(1j * 2.3562)</span>
+<span class="comment">% phasord_x1(x11)</span>
+
+<span class="comment">% -------------------------------------------------------------------------</span>
+
+x21 = 21*exp(1j * -2.7 * pi);		<span class="comment">% x2 in the form: x + jy = -12.3435 - j16.9894</span>
+phasorr_x21 = @(x21) [abs(x21) angle(x21)];		<span class="comment">% angle in radians</span>
+phasorr_x21(x21);	<span class="comment">% = 21 * exp(1j * -2.1991)</span>
+<span class="comment">% phasord_x2(x21)</span>
+</pre><img vspace="5" hspace="5" src="yac25_lab1_3_02.png" alt=""> <pre class="codeinput">x11 = 25.2*exp(1j * 10.75 * pi);
+real(x11)
+
+x21 = 21*exp(1j * -2.7 * pi);
+real(x21)
+</pre><pre class="codeoutput">
+ans =
+
+  -17.8191
+
+
+ans =
+
+  -12.3435
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Yonatan Carver
+% ECES 352 - Lab 1
+
+% 3 - Laboratory: Manipulating Sinusoids with MATLAB
+
+clear ; clc ; close all
+%% (a)
+tt = -0.001 : 0.000001 : 0.001;
+% These bounds were chosen so that tt covers a range of t that will exhibit
+% approximately 2 cycles of the 1250 Hz sinusoids
+% The step size was chosen so that there are more than 25 samples per
+% period
+
+%% (b)
+A2 = 21;                % age
+A1 = 1.2 * A2;			% = 25.2
+M = 7;                  % month of birthday
+D = 30;                 % day of birthday
+freq = 1250;            % frequency
+T = 1/freq;             % = 0.0008, period
+
+% tm1 & tm2 are both time shifts in the sinusoids
+% tm1 causes the sinusoid to be shifted to the left
+tm1 = -(37.2/M) * T;    % = -0.0043, time delay 1
+% tm2 causes the sinusoid to be shifted to the right
+tm2 = (41.3/D) * T;     % = 0.0011, time delay 2
+
+% Generate two 1250 Hz sinusoids with amplitude A1 & A2 and time shifts tm1
+% & tm2
+x1 = A1 * cos( 2 * pi * freq * (tt - tm1));
+x2 = A2 * cos( 2 * pi * freq * (tt - tm2));
+
+%% (c)
+% Sum of x1 and x2 sinusoids
+x3 = x1 + x2;
+
+%% (d)
+
+subplot(3,1,1)
+plot( tt, x1, 'r-')
+grid on
+% title('PLOT OF x1')
+title('PLOT OF A_1cos(2\pi(1250)(t - t_m_1))')
+xlabel('TIME (sec)')
+annotation('textbox', [0.02 0.7 0.09 0.2], 'String', {...
+	'A_1 = 12.6' ...
+	't_m_1 = -0.251' ...
+	'\phi_1 = 1.971'}, ...
+	'FontSize', 14)
+
+subplot(3,1,2)
+plot( tt, x2, 'm-')
+hold on
+% plot(tt, A2*cos(2*pi*1250*tt))	% for testing purposes
+grid on
+% title('PLOT OF x2')
+title('PLOT OF A_2cos(2\pi(1250)(t - t_m_2))')
+xlabel('TIME (sec)')
+annotation('textbox', [0.02 0.4 0.09 0.2], 'String', {...
+	'A_2 = 10.5' ...
+	't_m_2 = 0.301' ...
+	'\phi_2 = -2.364'}, ...
+	'FontSize', 14)
+
+subplot(3,1,3)
+plot( tt, x3, 'b-')
+hold on
+% plot(tt, 26.3*cos(2*pi*1250*tt))	% for testing purposes
+grid on
+title('PLOT OF x3 = x1 + x2')
+xlabel('TIME (sec)')
+annotation('textbox', [0.02 0.1 0.09 0.2], 'String', {...
+	'A_3 = 13.5' ...
+	't_m_3 = 0.442' ...
+	'\phi_3 = -(2\pi * T) * t_d = -3.471'}, ...
+	'FontSize', 10)
+
+sgtitle('Manipulating Sinusoids with MATLAB')	% subplot title
+
+hold on
+
+%% 3.1 Theoretical Calculations
+
+%% (a) & (b)
+
+% Calculations for time_delay, amplitude, phase (phi), and omega (w)
+
+% The amplitude (P-P) of the signals were found using the findpeaks() 
+% function. This function returns the coordinates (x, y) of the maxima on
+% the graph. One must convert the function's returned x value to be on the
+% same scale as tt (the time window).
+
+% T (period) is found by calculating the distances between two peaks of the
+% signal (found using the findpeaks() function), i.e. subtracting two
+% subsequent x values
+
+% Omega (w) is found using the equation: (2pi)/T, where T is the period of
+% the sinusoid
+
+% Phi (phase) is found using the equation: w*-t_d, where w is the frequency
+% and t_d is the time delay
+
+% x1 amplitude = 12.6 (25.2 P-P)
+[y_x1, x_x1] = findpeaks(x1);	% find x & y values of peaks
+% x1_x_peaks = tt(x_x1)			% get actual x values from tt
+% peak 1: (-0.251, 25.2)
+% peak 2: (0.549, 25.2)
+% T_x1 = 0.549 - -0.251			% T = 0.8 (same for all sinusoids)
+w_x1 = 2 * pi / 0.8;			% w = 7.854
+phi_x1 = -7.854 * -0.251;		% phi = 1.971
+
+% x2 amplitude = 10.5 (21 P-P)
+[y_x2, x_x2] = findpeaks(x2);	% find x & y values of peaks
+% x2_x_peaks = tt(x_x2)			% get actual x values from tt
+% peak 1: (-0.5, 21)
+% peak 2: (0.301, 21)
+% T_x2 = 0.301 - -0.5			% T = 0.8 (same for all sinusoids)
+w_x2 = 2 * pi / 0.8;			% w = 7.854
+phi_x2 = -7.854 * 0.301;		% phi = -2.364
+
+% x3 amplitude = 13.5 (26.3 P-P)
+[y_x3, x_x3] = findpeaks(x3);	% find x & y values of peaks
+% x3_x_peaks = tt(x_x3)			% get actual x values from tt
+% peak 1: (-0.358, 26.3)
+% peak 2: (0.442, 26.3)
+% T_x3 = 0.442 - -0.358			% T = 0.8 (same for all sinusoids)
+w_x3 = 2 * pi / 0.8;			% w = 7.854
+phi_x3 = -7.854 * 0.442;		% phi = -3.471
+
+%% (c)
+x1_exp = A1 * exp(1j * 2500 * pi * tt); %* exp(1j * 1250 * 2 * pi * -0.0043);	% x1 written in exponential form
+x2_exp = A2 * exp(1j * 2500 * pi * tt); %* exp(1j * 1250 * 2 * pi * 0.0011);	% x2 written in exponential form
+x3_new = real(x1_exp) + real(x2_exp);	% sum of real parts of x1 & x2
+
+[y_x3_new, x_x3_new] = findpeaks(x3_new);	% find x & y values of peaks
+x3_new_x_peaks = tt(x_x3_new);				% get actual x values from tt
+% peak 1: (-0.000388, 32.8028)
+% peak 2: (0.0004120, 32.8028)
+% Amplitude = 16.4014 (32.8028 P-P)
+
+
+%% 3.2 Complex Amplitude
+
+% Generate values of the sinusoid x_1(t) using complex-amplitude
+% representation:
+figure; plot(tt, real(x1_exp)); grid on
+title('3.2 Complex Amplitude: x_1(t) using complex-amplitude representation')
+xlabel('TIME (sec)')
+
+
+x11 = 25.2*exp(1j * 10.75 * pi);		% x1 in the form: x + jy = -17.8191 + j17.8191
+phasorr_x11 = @(x11) [abs(x11) angle(x11)];		% angle in radians
+phasorr_x11(x11);	% = 25.2 * exp(1j * 2.3562)
+% phasord_x1(x11)
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+
+x21 = 21*exp(1j * -2.7 * pi);		% x2 in the form: x + jy = -12.3435 - j16.9894
+phasorr_x21 = @(x21) [abs(x21) angle(x21)];		% angle in radians
+phasorr_x21(x21);	% = 21 * exp(1j * -2.1991)
+% phasord_x2(x21)
+
+%%
+x11 = 25.2*exp(1j * 10.75 * pi);
+real(x11)
+
+x21 = 21*exp(1j * -2.7 * pi);
+real(x21)
+##### SOURCE END #####
+--></body></html>

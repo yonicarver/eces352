@@ -1,0 +1,220 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>get_sequence_ft</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-02-01"><meta name="DC.source" content="get_sequence_ft.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> sequence_FT = get_sequence_ft(hbb, sequence_number, N)
+
+	sequence = hbb.Sequence;
+	cds_indices = hbb.CDS.indices;
+
+	<span class="comment">% Indices</span>
+	<span class="comment">% 1: 27726</span>
+	<span class="comment">% 2: 27817</span>
+	<span class="comment">% 3: 27940</span>
+	<span class="comment">% 4: 28162</span>
+	<span class="comment">% 5: 29019</span>
+	<span class="comment">% 6: 29147</span>
+
+	<span class="comment">% indices for coding &amp; non-coding regions</span>
+	<span class="comment">% non-coding regions are sequence[1 2]a</span>
+	sequence1 = sequence(cds_indices(1) : cds_indices(2));
+	sequence1a = sequence(cds_indices(2) : cds_indices(3));
+
+	sequence2 = sequence(cds_indices(3) : cds_indices(4));
+	sequence2a = sequence(cds_indices(4) : cds_indices(5));
+
+	sequence3 = sequence(cds_indices(5) : cds_indices(6));
+
+	<span class="comment">% convert A, T, C, G to binary numbers</span>
+	<span class="keyword">switch</span> sequence_number
+		<span class="keyword">case</span> 1
+			coding_A = (upper(sequence1) == <span class="string">'A'</span>);
+			coding_T = (upper(sequence1) == <span class="string">'T'</span>);
+			coding_C = (upper(sequence1) == <span class="string">'C'</span>);
+			coding_G = (upper(sequence1) == <span class="string">'G'</span>);
+		<span class="keyword">case</span> <span class="string">'1a'</span>
+			coding_A = (upper(sequence1a) == <span class="string">'A'</span>);
+			coding_T = (upper(sequence1a) == <span class="string">'T'</span>);
+			coding_C = (upper(sequence1a) == <span class="string">'C'</span>);
+			coding_G = (upper(sequence1a) == <span class="string">'G'</span>);
+		<span class="keyword">case</span> 2
+			coding_A = (upper(sequence2) == <span class="string">'A'</span>);
+			coding_T = (upper(sequence2) == <span class="string">'T'</span>);
+			coding_C = (upper(sequence2) == <span class="string">'C'</span>);
+			coding_G = (upper(sequence2) == <span class="string">'G'</span>);
+		<span class="keyword">case</span> <span class="string">'2a'</span>
+			coding_A = (upper(sequence2a) == <span class="string">'A'</span>);
+			coding_T = (upper(sequence2a) == <span class="string">'T'</span>);
+			coding_C = (upper(sequence2a) == <span class="string">'C'</span>);
+			coding_G = (upper(sequence2a) == <span class="string">'G'</span>);
+		<span class="keyword">case</span> 3
+			coding_A = (upper(sequence3) == <span class="string">'A'</span>);
+			coding_T = (upper(sequence3) == <span class="string">'T'</span>);
+			coding_C = (upper(sequence3) == <span class="string">'C'</span>);
+			coding_G = (upper(sequence3) == <span class="string">'G'</span>);
+		<span class="keyword">case</span> 4
+			coding_A = (upper(sequence) == <span class="string">'A'</span>);
+			coding_T = (upper(sequence) == <span class="string">'T'</span>);
+			coding_C = (upper(sequence) == <span class="string">'C'</span>);
+			coding_G = (upper(sequence) == <span class="string">'G'</span>);
+	<span class="keyword">end</span>
+
+	<span class="comment">% get FFT of sequence by summing up FFT of each sequence of binary</span>
+	<span class="comment">% numbers</span>
+	sequence_FT = abs(fft(coding_A, N)) + <span class="keyword">...</span>
+		abs(fft(coding_T, N)) + <span class="keyword">...</span>
+		abs(fft(coding_C, N)) + <span class="keyword">...</span>
+		abs(fft(coding_G, N));
+
+	<span class="comment">% sequence_FT = abs(fftshift(fft(coding_A, N))) + ...</span>
+	<span class="comment">%     abs(fftshift(fft(coding_T, N))) + ...</span>
+	<span class="comment">%     abs(fftshift(fft(coding_C, N))) + ...</span>
+	<span class="comment">%     abs(fftshift(fft(coding_G, N)));</span>
+
+	sequence_FT = sequence_FT(15:length(sequence_FT)-15);	<span class="comment">% remove spikes @ beginning &amp; end</span>
+
+<span class="keyword">end</span>
+</pre><pre class="codeoutput error">Not enough input arguments.
+
+Error in get_sequence_ft (line 3)
+	sequence = hbb.Sequence;
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function sequence_FT = get_sequence_ft(hbb, sequence_number, N)
+
+	sequence = hbb.Sequence;
+	cds_indices = hbb.CDS.indices;
+
+	% Indices
+	% 1: 27726
+	% 2: 27817
+	% 3: 27940
+	% 4: 28162
+	% 5: 29019
+	% 6: 29147
+
+	% indices for coding & non-coding regions
+	% non-coding regions are sequence[1 2]a
+	sequence1 = sequence(cds_indices(1) : cds_indices(2));
+	sequence1a = sequence(cds_indices(2) : cds_indices(3));
+
+	sequence2 = sequence(cds_indices(3) : cds_indices(4));
+	sequence2a = sequence(cds_indices(4) : cds_indices(5));
+
+	sequence3 = sequence(cds_indices(5) : cds_indices(6));
+
+	% convert A, T, C, G to binary numbers
+	switch sequence_number
+		case 1
+			coding_A = (upper(sequence1) == 'A');
+			coding_T = (upper(sequence1) == 'T');
+			coding_C = (upper(sequence1) == 'C');
+			coding_G = (upper(sequence1) == 'G');
+		case '1a'
+			coding_A = (upper(sequence1a) == 'A');
+			coding_T = (upper(sequence1a) == 'T');
+			coding_C = (upper(sequence1a) == 'C');
+			coding_G = (upper(sequence1a) == 'G');
+		case 2
+			coding_A = (upper(sequence2) == 'A');
+			coding_T = (upper(sequence2) == 'T');
+			coding_C = (upper(sequence2) == 'C');
+			coding_G = (upper(sequence2) == 'G');
+		case '2a'
+			coding_A = (upper(sequence2a) == 'A');
+			coding_T = (upper(sequence2a) == 'T');
+			coding_C = (upper(sequence2a) == 'C');
+			coding_G = (upper(sequence2a) == 'G');
+		case 3
+			coding_A = (upper(sequence3) == 'A');
+			coding_T = (upper(sequence3) == 'T');
+			coding_C = (upper(sequence3) == 'C');
+			coding_G = (upper(sequence3) == 'G');
+		case 4
+			coding_A = (upper(sequence) == 'A');
+			coding_T = (upper(sequence) == 'T');
+			coding_C = (upper(sequence) == 'C');
+			coding_G = (upper(sequence) == 'G');
+	end
+
+	% get FFT of sequence by summing up FFT of each sequence of binary
+	% numbers
+	sequence_FT = abs(fft(coding_A, N)) + ...
+		abs(fft(coding_T, N)) + ...
+		abs(fft(coding_C, N)) + ...
+		abs(fft(coding_G, N));
+
+	% sequence_FT = abs(fftshift(fft(coding_A, N))) + ...
+	%     abs(fftshift(fft(coding_T, N))) + ...
+	%     abs(fftshift(fft(coding_C, N))) + ...
+	%     abs(fftshift(fft(coding_G, N)));
+
+	sequence_FT = sequence_FT(15:length(sequence_FT)-15);	% remove spikes @ beginning & end
+
+end
+##### SOURCE END #####
+--></body></html>
